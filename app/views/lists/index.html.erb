@@ -1,0 +1,43 @@
+<h1>TO DO LIST</h1>
+
+  <%= link_to "add", new_list_path,class:"btn btn-success" %>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <td></td>
+        <td>name</td>
+        <td>duate</td>
+        <td>note</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lists.each do |list| %>
+      <tr>
+        <% if Time.now <= list.date %>
+          <td>
+            <%= check_box_tag :check_box, true , list.check_box, data: { url: check_box_list_path(list), method: :post, remote: true } %>
+          </td>
+          <td><%= list.name %></td>
+          <td><%= list.date %></td>
+          <td><%= list.note %></td>
+          <td>
+            <%= link_to "編輯", edit_list_path(list) %>
+            <%= link_to "刪除", list_path(list), method: "delete", data: { confirm: "確認刪除" } %>
+          </td>
+      </tr>
+        <% else %>
+      <tr>
+          <td>
+            <%= check_box_tag :check_box, true , list.check_box, disabled: true %>
+          </td>
+          <td><font color="#999"><%= list.name %></font></td>
+          <td><font color="#999"><%= list.date %></font></td>
+          <td><font color="#999"><%= list.note %></font></td>
+          <td></td>
+          <td></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
